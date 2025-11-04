@@ -1,129 +1,73 @@
-📘 README – Taller de Provisionamiento con Vagrant (Web + DB)
-🧩 Descripción General
+# 🌍 Proyecto de Provisionamiento con Vagrant
 
-Este proyecto implementa dos máquinas virtuales interconectadas mediante red privada (Host-Only) utilizando Vagrant + VirtualBox, con el fin de automatizar un entorno básico de aplicación web conectada a una base de datos PostgreSQL.
+## 📘 Descripción
+Este proyecto implementa un entorno de infraestructura virtual usando **Vagrant** y **VirtualBox**, con dos máquinas virtuales conectadas en red privada.  
+Su objetivo es desplegar una aplicación web simple que se comunica con una base de datos PostgreSQL en otra VM.
 
-VM Web (web-nuevo)
+---
 
-IP privada: 192.168.58.10
+## 🧩 Arquitectura del Proyecto
 
-Servicios: Apache + PHP + Cliente PostgreSQL
+| Rol | Nombre VM | IP | Servicios |
+|-----|------------|----|------------|
+| Servidor Web | `web-nuevo` | 192.168.58.10 | Apache2, PHP |
+| Servidor DB | `db-nuevo` | 192.168.58.11 | PostgreSQL 12 |
 
-Rol: Servidor web
+Las máquinas se comunican mediante una red privada tipo **Host-Only**, configurada en el archivo `Vagrantfile`.
 
-Acceso vía navegador desde el host.
+---
 
-VM DB (db-nuevo)
+## ⚙️ Requisitos Previos
+- [Vagrant](https://www.vagrantup.com/downloads)
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+- Conexión de red local (para modo Host-Only)
 
-IP privada: 192.168.58.11
+---
 
-Servicios: PostgreSQL 12
+## 🚀 Instrucciones de Uso
 
-Rol: Servidor de base de datos
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/tuusuario/proyecto_provision.git
+   cd proyecto_provision
+Iniciar las máquinas virtuales
 
-Permite conexiones desde la red 192.168.58.0/24.
-
-⚙️ Requisitos previos
-
-VirtualBox instalado (versión 7.x recomendada).
-
-Vagrant instalado.
-
-Carpeta de trabajo: C:\Users\Master\Desktop\proyecto_provision.
-
-🚀 Cómo desplegar el entorno
-
-1️⃣ Abrir PowerShell en la carpeta del proyecto:
-
-cd C:\Users\Master\Desktop\proyecto_provision
-
-
-2️⃣ Levantar las máquinas:
-
+bash
+Copiar código
 vagrant up
+Verificar el acceso
 
+Servidor Web: http://192.168.58.10
 
-(Se crean y configuran automáticamente las VMs web y db.)
+Información PHP: http://192.168.58.10/info.php
 
-3️⃣ Verificar estado:
+Prueba Base de Datos: http://192.168.58.10/dbtest.php
 
-vagrant global-status --prune
+🗂️ Archivos Incluidos
+Archivo	Descripción
+Vagrantfile	Define las dos VMs (web y db) y sus redes privadas
+provision-web.sh	Script que instala y configura Apache, PHP y copia los archivos del sitio
+provision-db.sh	Script que instala PostgreSQL y crea la base de datos, usuario y tabla
+site/index.html	Página principal del servidor web
+site/info.php	Archivo de información de PHP
+site/dbtest.php	Prueba de conexión a PostgreSQL desde PHP
+README.md	Documentación del proyecto
 
+🧠 Credenciales de Base de Datos
+Parámetro	Valor
+Host:	192.168.58.11
+Base:	appdb
+Usuario:	appuser
+Contraseña:	appsecret
+Tabla:	ejemplo (id SERIAL, nombre TEXT)
 
-Deberías ver:
+📸 Evidencias
+Acceso web: http://192.168.58.10
 
-web   running
-db    running
+Prueba de conexión PostgreSQL (dbtest.php)
 
+Comando vagrant global-status mostrando ambas VMs activas.
 
-4️⃣ Acceder a las VMs:
-
-vagrant ssh web
-vagrant ssh db
-
-🌐 Acceso a los servicios
-Desde el navegador del host (Windows):
-
-Página principal:
-👉 http://192.168.58.10/
-
-Prueba de conexión con base de datos:
-👉 http://192.168.58.10/dbtest.php
-
-Debería mostrarse:
-
-Datos desde PostgreSQL
-1 - Ada Lovelace
-2 - Alan Turing
-3 - Grace Hopper
-
-🧠 Base de datos
-
-Servidor: 192.168.58.11
-
-Puerto: 5432
-
-Base de datos: appdb
-
-Usuario: appuser
-
-Contraseña: appsecret
-
-Tabla: ejemplo (id SERIAL, nombre TEXT)
-
-Ejemplo de conexión desde la VM web:
-
-psql -h 192.168.58.11 -U appuser -d appdb -c "select * from ejemplo;"
-
-🔄 Comandos útiles
-
-Apagar las máquinas:
-
-vagrant halt
-
-
-Encenderlas nuevamente:
-
-vagrant up
-
-
-Reiniciar una VM:
-
-vagrant reload web
-vagrant reload db
-
-
-Eliminar completamente el entorno:
-
-vagrant destroy -f
-
-
-Ver configuración activa:
-
-vagrant ssh-config
-
-🧾 Créditos
-
-Proyecto realizado como parte del Taller de Provisionamiento con Vagrant.
-Autor: José Fernando Aguirre Patiño (2240664)
+👨‍💻 Autor
+Noviembre 2025Autor: José Fernando Aguirre Patiño (2240664)
 Fecha: Noviembre de 2025
